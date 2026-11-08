@@ -10,6 +10,8 @@ SettingsBlob {
     id: section
     required property var tab
     readonly property var rootObj: tab.rootObj
+    // Safe while the tab is being torn down and rootObj is already gone.
+    function s(v) { return rootObj ? rootObj.s(v) : v; }
 
     readonly property var iconShadeMeta: ({
         "cpu": { "icon": "", "name": I18n.t("guide.theme.iconshades.names.cpu", "CPU") },
@@ -32,15 +34,15 @@ SettingsBlob {
         searchKeywords: "icon shade hue tint colour color nuance bar modules wifi bluetooth volume battery cpu ram"
 
         ClickButton {
-            implicitHeight: section.rootObj.s(30)
+            implicitHeight: section.s(30)
             buttonText: I18n.t("guide.theme.iconshades.reset", "Reset")
             buttonIcon: "󰑐"
             accentColor: ThemeBackend.surface0
             textColor: ThemeBackend.text
             cornerRadius: ThemeBackend.borderRadius
-            horizontalPadding: section.rootObj.s(12)
-            iconFontSize: section.rootObj.s(14)
-            textFontSize: section.rootObj.s(11)
+            horizontalPadding: section.s(12)
+            iconFontSize: section.s(14)
+            textFontSize: section.s(11)
             onTriggered: ThemeBackend.resetIconShades()
         }
     }
@@ -62,13 +64,13 @@ SettingsBlob {
                 + I18n.t("guide.theme.iconshades.light", "Brightness") + " " + Math.round(params.l * 100) + "%"
 
             RowLayout {
-                spacing: section.rootObj.s(6)
+                spacing: section.s(6)
 
                 Rectangle {
                     Layout.alignment: Qt.AlignVCenter
-                    implicitWidth: section.rootObj.s(26)
-                    implicitHeight: section.rootObj.s(18)
-                    radius: section.rootObj.s(6)
+                    implicitWidth: section.s(26)
+                    implicitHeight: section.s(18)
+                    radius: section.s(6)
                     color: shadeRow.swatch
                     border.width: 1
                     border.color: Qt.alpha(ThemeBackend.surface2, 0.6)
@@ -77,14 +79,14 @@ SettingsBlob {
                     text: "T"
                     color: ThemeBackend.subtext0
                     font.family: ThemeBackend.fontFamily
-                    font.pixelSize: section.rootObj.s(10)
+                    font.pixelSize: section.s(10)
                     Layout.alignment: Qt.AlignVCenter
                 }
                 Draggable {
                     Layout.alignment: Qt.AlignVCenter
-                    Layout.rightMargin: section.rootObj.s(6)
-                    implicitWidth: section.rootObj.s(120)
-                    implicitHeight: section.rootObj.s(16)
+                    Layout.rightMargin: section.s(6)
+                    implicitWidth: section.s(120)
+                    implicitHeight: section.s(16)
                     from: -0.5
                     to: 0.5
                     stepSize: 0.01
@@ -105,14 +107,14 @@ SettingsBlob {
                     text: "L"
                     color: ThemeBackend.subtext0
                     font.family: ThemeBackend.fontFamily
-                    font.pixelSize: section.rootObj.s(10)
+                    font.pixelSize: section.s(10)
                     Layout.alignment: Qt.AlignVCenter
                 }
                 Draggable {
                     Layout.alignment: Qt.AlignVCenter
-                    Layout.rightMargin: section.rootObj.s(6)
-                    implicitWidth: section.rootObj.s(120)
-                    implicitHeight: section.rootObj.s(16)
+                    Layout.rightMargin: section.s(6)
+                    implicitWidth: section.s(120)
+                    implicitHeight: section.s(16)
                     from: -0.5
                     to: 0.5
                     stepSize: 0.01

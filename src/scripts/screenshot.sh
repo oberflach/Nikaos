@@ -56,6 +56,10 @@ qs_ensure_cache "screenshot"
 qs_ensure_cache "recording"
 
 CACHE_DIR="$QS_CACHE_RECORDING"
+# The session usually does not export XDG_PICTURES_DIR/XDG_VIDEOS_DIR; read
+# them from user-dirs.dirs so localized folders (~/Images, ~/Vidéos) are used.
+USER_DIRS="${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs"
+[ -f "$USER_DIRS" ] && . "$USER_DIRS"
 SAVE_DIR="$(get_setting "screenshotDir" "")"
 [ -z "$SAVE_DIR" ] && SAVE_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots"
 RECORD_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}/Recordings"

@@ -399,7 +399,7 @@ Rectangle {
                 implicitHeight: card.s(30)
                 buttonText: I18n.t("overlay.recorder.open_folder")
                 textColor: ThemeBackend.subtext0
-                onClicked: Qt.openUrlExternally("file://" + (Quickshell.env("XDG_VIDEOS_DIR") ? Quickshell.env("XDG_VIDEOS_DIR") + "/Recordings" : (Quickshell.env("HOME") + "/Videos/Recordings")))
+                onClicked: Quickshell.execDetached(["bash", "-c", "f=\"${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs\"; [ -f \"$f\" ] && . \"$f\"; d=\"${XDG_VIDEOS_DIR:-$HOME/Videos}/Recordings\"; mkdir -p \"$d\" && xdg-open \"$d\""])
             }
 
             component RecorderActionButton: Rectangle {

@@ -23,7 +23,16 @@ GuideTab {
     property string busyCode: ""
     property string busyAction: ""
     property string search: ""
-    readonly property string defaultScreenshotDir: (Quickshell.env("XDG_PICTURES_DIR") || (Quickshell.env("HOME") + "/Pictures")) + "/Screenshots"
+    // Localized pictures folder from user-dirs.dirs (e.g. ~/Images), read below.
+    property string picturesDir: Quickshell.env("XDG_PICTURES_DIR") || (Quickshell.env("HOME") + "/Pictures")
+    readonly property string defaultScreenshotDir: picturesDir + "/Screenshots"
+    Process {
+        running: true
+        command: ["bash", "-c", "f=\"${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs\"; [ -f \"$f\" ] && . \"$f\"; printf '%s' \"${XDG_PICTURES_DIR:-$HOME/Pictures}\""]
+        stdout: StdioCollector {
+            onStreamFinished: if (this.text.trim() !== "") screenshotTabRoot.picturesDir = this.text.trim()
+        }
+    }
     property string currentScreenshotDir: defaultScreenshotDir
     property var availableScreenshotDirs: [defaultScreenshotDir]
 
@@ -137,7 +146,7 @@ GuideTab {
         id: screenshotDirScanner
         command: [
             "bash", "-c",
-            "for d in \"${XDG_PICTURES_DIR:-$HOME/Pictures}\" \"${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots\" \"$HOME/Screenshots\" \"${XDG_DESKTOP_DIR:-$HOME/Desktop}\" \"${XDG_DOCUMENTS_DIR:-$HOME/Documents}\" \"${XDG_DOWNLOAD_DIR:-$HOME/Downloads}\"; do [ -d \"$d\" ] && printf '%s\\n' \"$d\"; done"
+            "f=\"${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs\"; [ -f \"$f\" ] && . \"$f\"; for d in \"${XDG_PICTURES_DIR:-$HOME/Pictures}\" \"${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots\" \"$HOME/Screenshots\" \"${XDG_DESKTOP_DIR:-$HOME/Desktop}\" \"${XDG_DOCUMENTS_DIR:-$HOME/Documents}\" \"${XDG_DOWNLOAD_DIR:-$HOME/Downloads}\"; do [ -d \"$d\" ] && printf '%s\\n' \"$d\"; done"
         ]
         stdout: StdioCollector {
             onStreamFinished: {
