@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Nikaos command line. The internal command keeps its upstream name
+# (serpantinum) for compatibility with serpantinum-core/-audio/-gamma.
+exec "$(dirname "$(realpath "$0")")/serpantinum" "$@"
