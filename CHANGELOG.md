@@ -6,6 +6,24 @@ Chaque version a sa release sur GitHub, avec les notes ci-dessous :
 corrections, celui du milieu pour des nouveautés, le premier pour un grand
 changement.
 
+## 2.6.0 — 8 novembre 2026
+
+### Nouveautés
+- **Nouvel installateur à une commande** : installe Nikaos depuis la dernière
+  release, sans avoir à cloner le dépôt.
+- L'installation est maintenant annoncée et vérifiée comme réservée à Arch
+  Linux et à ses dérivées utilisant pacman.
+
+### Améliorations
+- Il est possible de choisir une branche ou une version précise avec
+  `NIKAOS_REF`, notamment pour tester une version avant sa publication.
+
+### Corrections
+- Le lanceur démarre aussi sans terminal interactif, par exemple depuis un
+  service ou un script automatisé.
+
+---
+
 ## 2.5.0 — 8 novembre 2026
 
 Première version de Nikaos, basée sur Serpantinum 2.4.3.
