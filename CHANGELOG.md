@@ -6,6 +6,20 @@ Chaque version a sa release sur GitHub, avec les notes ci-dessous :
 corrections, celui du milieu pour des nouveautés, le premier pour un grand
 changement.
 
+## 2.7.1 — 8 novembre 2026
+
+### Corrections (application Android Nikaos Linux)
+- **L'installation depuis l'application va au bout** : sans terminal,
+  l'installateur ne reste plus bloqué sur son menu, il installe directement
+  avec les choix détectés (forçable avec `NIKAOS_NONINTERACTIVE=1`).
+- **pacman ne plante plus** sur « DownloadUser 'alpm' (user does not exist) » :
+  sur Android, l'installateur désactive ce réglage et le bac à sable de pacman,
+  qui ne marchent pas sous proot.
+- Pas d'assistant AUR (yay) sur Android : sa compilation plantait (fakeroot).
+- **`nikaos session`** lance Sway imbriqué dans l'application avec le rendu
+  logiciel (pixman), comme le bureau de l'application.
+- `nikaos --version` affiche la version installée.
+
 ## 2.7.0 — 8 novembre 2026
 
 ### Nouveautés
