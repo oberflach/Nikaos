@@ -58,6 +58,21 @@ Rectangle {
     signal closeRequested()
     signal moved(real x, real y)
     signal overlayCloseRequested()
+
+    // Local: the recorder buttons close the overlay first and only start the
+    // capture once its cards have faded out (180 ms), so they never end up
+    // half-transparent in the frozen frame.
+    function captureAfterClose(cmd) {
+        card.overlayCloseRequested();
+        captureDelay.cmd = cmd;
+        captureDelay.restart();
+    }
+    Timer {
+        id: captureDelay
+        property var cmd: []
+        interval: 350
+        onTriggered: Quickshell.execDetached(captureDelay.cmd)
+    }
     signal pinToggled()
 
     function s(val) { return card.scaleFn(val); }
@@ -364,32 +379,28 @@ Rectangle {
                     icon: "screenshot_region"
                     label: I18n.t("overlay.recorder.shot_region")
                     onClicked: {
-                        card.overlayCloseRequested();
-                        Quickshell.execDetached(["serpantinum", "screenshot"]);
+                        card.captureAfterClose(["serpantinum", "screenshot"]);
                     }
                 }
                 RecorderActionButton {
                     icon: "photo_camera"
                     label: I18n.t("overlay.recorder.shot_full")
                     onClicked: {
-                        card.overlayCloseRequested();
-                        Quickshell.execDetached(["serpantinum", "screenshot", "--full"]);
+                        card.captureAfterClose(["serpantinum", "screenshot", "--full"]);
                     }
                 }
                 RecorderActionButton {
                     icon: "screen_record"
                     label: I18n.t("overlay.recorder.rec_region")
                     onClicked: {
-                        card.overlayCloseRequested();
-                        Quickshell.execDetached(["serpantinum", "screenshot", "--record"]);
+                        card.captureAfterClose(["serpantinum", "screenshot", "--record"]);
                     }
                 }
                 RecorderActionButton {
                     icon: "capture"
                     label: I18n.t("overlay.recorder.rec_full")
                     onClicked: {
-                        card.overlayCloseRequested();
-                        Quickshell.execDetached(["serpantinum", "screenshot", "--full", "--record"]);
+                        card.captureAfterClose(["serpantinum", "screenshot", "--full", "--record"]);
                     }
                 }
             }
