@@ -112,7 +112,8 @@ bash install/install.sh
 ```
 
 L'installateur télécharge la dernière release par défaut. Pour tester une
-branche ou une version précise, définissez `NIKAOS_REF`, par exemple :
+branche ou une version précise, choisissez l'option avancée dans le menu, ou
+définissez `NIKAOS_REF`, par exemple :
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/oberflach/nikaos/master/install/get.sh | NIKAOS_REF=master bash
