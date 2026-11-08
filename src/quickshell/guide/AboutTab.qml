@@ -24,6 +24,20 @@ GuideTab {
         }
     }
 
+    function openUpdatePicker() {
+        if (typeof Caching === "undefined" || !Caching.serpantinumDir) return;
+        updatePopup.openFor([], true);
+        if (!releaseProc.running) releaseProc.running = true;
+    }
+
+    function installVersion(version) {
+        if (!/^\d+(\.\d+){2}$/.test(version)) return;
+        let installer = "curl -fsSL https://github.com/oberflach/Nikaos/releases/latest/download/get.sh | NIKAOS_REF=\"$1\" bash";
+        let launcher = "if command -v kitty >/dev/null 2>&1; then exec kitty --hold bash -c \"$2\" _ \"$1\"; else exec xterm -hold -e bash -c \"$2\" _ \"$1\"; fi";
+        Quickshell.execDetached(["bash", "-c", launcher, "_", version, installer]);
+        rootObj.dismissHost();
+    }
+
     onVisibleChanged: {
         if (visible) activateTab();
     }
@@ -185,11 +199,7 @@ GuideTab {
                             iconFontSize: rootObj.s(16)
                             fillDuration: 1200
 
-                            onTriggered: {
-                                let cmd = "if command -v kitty >/dev/null 2>&1; then kitty --hold bash -c 'eval \"$(curl -fsSL https://raw.githubusercontent.com/oberflach/nikaos/master/install/install.sh)\"'; else ${TERM:-xterm} -hold -e bash -c 'eval \"$(curl -fsSL https://raw.githubusercontent.com/oberflach/nikaos/master/install/install.sh)\"'; fi";
-                                Quickshell.execDetached(["bash", "-c", cmd]);
-                                rootObj.dismissHost();
-                            }
+                            onTriggered: aboutTabRoot.openUpdatePicker()
                         }
                     }
                 }
@@ -377,6 +387,40 @@ GuideTab {
                     onTriggered: Quickshell.execDetached(["xdg-open", "https://github.com/oberflach/nikaos"])
                 }
             }
+        }
+    }
+
+    Process {
+        id: releaseProc
+        running: false
+        command: [
+            "python3",
+            (typeof Caching !== "undefined" ? Caching.serpantinumDir : "") + "/scripts/updater.py",
+            "--state-dir",
+            (typeof Caching !== "undefined" ? Caching.getStateDir() : ""),
+            "--releases"
+        ]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                let out = this.text ? this.text.trim() : "";
+                try {
+                    let data = JSON.parse(out);
+                    updatePopup.setReleases(data.releases || []);
+                } catch (e) {
+                    updatePopup.setReleases([]);
+                }
+            }
+        }
+        onExited: {
+            if (updatePopup.loading) updatePopup.setReleases([]);
+        }
+    }
+
+    UpdatePopup {
+        id: updatePopup
+        rootObj: aboutTabRoot.rootObj
+        onInstallRequested: function(version) {
+            aboutTabRoot.installVersion(version);
         }
     }
 }

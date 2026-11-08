@@ -78,6 +78,29 @@ def parse_v(v):
     nums = re.findall(r"\d+", v)
     return [int(x) for x in nums] if nums else [0]
 
+if "--releases" in sys.argv:
+    releases = []
+    local_ver = get_local_ver()
+    try:
+        req = urllib.request.Request(
+            f"https://api.github.com/repos/{REPO}/releases?per_page=30",
+            headers={"User-Agent": "nikaos-updater", "Accept": "application/vnd.github+json"}
+        )
+        data = json.loads(urllib.request.urlopen(req, timeout=5).read().decode("utf-8"))
+        for release in data:
+            version = str(release.get("tag_name", "")).lstrip("vV").strip()
+            if (not release.get("draft") and not release.get("prerelease")
+                    and version and parse_v(version) > parse_v(local_ver)):
+                releases.append({
+                    "version": version,
+                    "notes": re.sub(r"[`*#]", "", str(release.get("body", ""))).strip(),
+                })
+    except Exception:
+        pass
+    releases.sort(key=lambda item: parse_v(item["version"]), reverse=True)
+    print(json.dumps({"releases": releases}))
+    sys.exit(0)
+
 try:
     os.makedirs(state_dir, exist_ok=True)
     with open(last_check_file, "w") as f:
