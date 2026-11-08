@@ -159,6 +159,8 @@ GuideTab {
             GeneralGapsSection { tab: generalTabRoot }
 
             GeneralHardwareSection { tab: generalTabRoot }
+
+            GeneralPerformanceSection { tab: generalTabRoot }
         }
     }
 }

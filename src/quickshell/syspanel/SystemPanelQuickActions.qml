@@ -108,7 +108,7 @@ Item {
 
         QuickActionBtn {
             id: nightLightBtn
-            visible: !view.useConservation
+            visible: !view.useConservation && ((Config.getSetting("hardware", {}) || {}).displayControl !== false)
             iconText: "󰖔"
             activeColor: ThemeBackend.peach
 

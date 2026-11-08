@@ -301,6 +301,24 @@
         "vesktop": {
           "title": "Vesktop transparency",
           "desc": "Add the Quick CSS the Super+G transparency card drives for Vesktop (Discord)"
+        },
+        "always_tablet": {
+          "title": "Always in tablet mode",
+          "desc": "For phones and tablets without a hinge: keep the on-screen keyboard and touch buttons"
+        },
+        "display": {
+          "title": "Screen control",
+          "desc": "Brightness slider and night light (turn off when the system controls the screen, e.g. on Android)"
+        }
+      },
+      "performance": {
+        "motion": {
+          "title": "Reduced motion",
+          "desc": "Short fades between wallpapers and colours applied at once"
+        },
+        "static": {
+          "title": "Static wallpapers",
+          "desc": "Video wallpapers show their preview image and GIFs stay still"
         }
       }
     },
@@ -1922,7 +1940,8 @@
     "set_desc": "Change a setting (notifications, idle, dock, sfx, theme, lang, wallpaper)",
     "trigger_desc": "Run a one-off action (idle, notifications, theme, firstlaunch)",
     "settings_desc": "Open the settings window, optionally on a given tab",
-    "error_unknown_app": "Error: unknown app '{ID}'."
+    "error_unknown_app": "Error: unknown app '{ID}'.",
+    "session_desc": "Start a session (Sway, Mango, Hyprland or Niri) with Nikaos"
   },
   "daemon": {
     "already_running": "Daemon is already running. Exiting...",

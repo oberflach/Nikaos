@@ -43,6 +43,7 @@ SUPPORTED_DISTROS=(
     "xerolinux"
     "axyl"
     "omarchy"
+    "archarm"
 )
 
 REQUIRED_PKGS=(
@@ -239,6 +240,15 @@ install_dependencies() {
         target_list+=("$(compositor_package_name "$comp")")
     done
 
+    # Off x86_64 (Arch Linux ARM) the helper programs are built from source.
+    if ! nikaos_is_x86_64; then
+        target_list+=(rust base-devel git pkgconf)
+    fi
+    # Nikaos Linux (Android proot): drop what cannot work there.
+    if nikaos_is_android; then
+        mapfile -t target_list < <(nikaos_filter_android_pkgs "${target_list[@]}")
+    fi
+
     if [ "$OPT_SDDM" = true ]; then
         local sddm_pkgs=()
         mapfile -t sddm_pkgs < <(sddm_packages)
@@ -288,6 +298,16 @@ install_dependencies() {
             fi
             sleep 0.2
         done
+    fi
+
+    # Arch Linux ARM may not package Quickshell: build it from source rather
+    # than leaving the shell without its runtime.
+    if ! command -v quickshell >/dev/null 2>&1 && ! nikaos_is_x86_64; then
+        if nikaos_build_quickshell; then
+            local left=()
+            for pkg in "${FAILED_PKGS[@]}"; do [ "$pkg" = quickshell ] || left+=("$pkg"); done
+            FAILED_PKGS=("${left[@]}")
+        fi
     fi
 
     ensure_quickshell_version

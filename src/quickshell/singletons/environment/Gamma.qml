@@ -7,6 +7,10 @@ import "../../"
 Item {
     id: root
 
+    // Settings > General > Hardware > Screen control; off on Nikaos Linux,
+    // where Android owns the display.
+    readonly property bool displayControl: ((typeof Config !== "undefined" ? Config.getSetting("hardware", {}) : {}) || {}).displayControl !== false
+
     signal settingsChanged()
 
     readonly property string compositor: Compositor.name
@@ -372,6 +376,7 @@ Item {
     }
 
     function applyAll() {
+        if (!root.displayControl) return;
         if (typeof Config === "undefined") return;
         let ds = Config.getSetting("display", defaultDisplaySettings);
         if (!ds) return;
@@ -401,6 +406,7 @@ Item {
     }
 
     function ensureInitialApply() {
+        if (!root.displayControl) return;
         if (typeof Config === "undefined") return;
         let ds = Config.getSetting("display", null);
         if (!ds) return;
@@ -410,6 +416,7 @@ Item {
     }
 
     function applyAllAutoOnly() {
+        if (!root.displayControl) return;
         if (typeof Config === "undefined") return;
         let ds = Config.getSetting("display", defaultDisplaySettings);
         if (!ds || !ds.monitors) return;

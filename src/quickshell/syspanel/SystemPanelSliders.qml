@@ -140,6 +140,8 @@ Rectangle {
         }
 
         RowLayout {
+            // Hidden when screen control is off (Settings > General > Hardware).
+            visible: ((Config.getSetting("hardware", {}) || {}).displayControl !== false)
             Layout.fillWidth: true
             spacing: panel.s(10)
 

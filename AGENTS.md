@@ -154,3 +154,15 @@ release, and the installer installs the latest release tag.
   `vX.Y.Z`) and `git push origin master --tags`. The workflow
   `.github/workflows/release.yml` creates the release from that changelog
   section.
+
+## Platforms (PC and Nikaos Linux on Android)
+
+`install/modules/platform.sh` decides per machine: architecture (prebuilt
+helpers on x86_64, `cargo build` of serpantinum-core/-gamma elsewhere,
+Quickshell built from source if Arch Linux ARM lacks it), init system (no
+systemd -> services from the compositor autostart) and the Android app
+(`DROIDDECK`, `NIKAOS_ANDROID=1` or `/usr/local/bin/droiddeck-desktop`: Sway,
+light profile, no gamma). Keep every change working on both: check with
+`bash install/install.sh --dry-run [--simulate-aarch64 --simulate-no-systemd --simulate-android]`
+and `bash install/tests/platform_test.sh`. `nikaos session`
+(`src/scripts/session.sh`) starts a compositor with the shell.

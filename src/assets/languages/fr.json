@@ -301,6 +301,24 @@
         "vesktop": {
           "title": "Transparence de Vesktop",
           "desc": "Ajouter le Quick CSS que la carte transparence de Super+G pilote pour Vesktop (Discord)"
+        },
+        "always_tablet": {
+          "title": "Toujours en mode tablette",
+          "desc": "Pour les téléphones et tablettes sans charnière : garder le clavier virtuel et les boutons tactiles"
+        },
+        "display": {
+          "title": "Contrôle de l'écran",
+          "desc": "Curseur de luminosité et lumière bleue (à désactiver quand le système gère l'écran, par ex. sur Android)"
+        }
+      },
+      "performance": {
+        "motion": {
+          "title": "Animations réduites",
+          "desc": "Fondus courts entre les fonds d'écran et couleurs appliquées d'un coup"
+        },
+        "static": {
+          "title": "Fonds d'écran statiques",
+          "desc": "Les fonds vidéo affichent leur image d'aperçu et les GIF restent figés"
         }
       }
     },
@@ -1894,7 +1912,8 @@
     "set_desc": "Modifier un réglage (notifications, idle, dock, sfx, theme, lang, wallpaper)",
     "trigger_desc": "Exécuter une action ponctuelle (idle, notifications, theme, firstlaunch)",
     "settings_desc": "Ouvrir la fenêtre des paramètres (éventuellement sur un onglet)",
-    "error_unknown_app": "Erreur : application inconnue '{ID}'."
+    "error_unknown_app": "Erreur : application inconnue '{ID}'.",
+    "session_desc": "Démarrer une session (Sway, Mango, Hyprland ou Niri) avec Nikaos"
   },
   "daemon": {
     "already_running": "Le démon est déjà en cours d'exécution. Fermeture...",

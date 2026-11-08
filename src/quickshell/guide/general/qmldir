@@ -10,3 +10,4 @@ SettingsPresetCard 1.0 SettingsPresetCard.qml
 SaveSettingsPresetPopup 1.0 SaveSettingsPresetPopup.qml
 ApplyPresetConfirmPopup 1.0 ApplyPresetConfirmPopup.qml
 GeneralHardwareSection 1.0 GeneralHardwareSection.qml
+GeneralPerformanceSection 1.0 GeneralPerformanceSection.qml

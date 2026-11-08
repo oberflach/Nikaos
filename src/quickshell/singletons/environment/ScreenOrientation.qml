@@ -22,7 +22,7 @@ Item {
     })
 
     function apply() {
-        if (!TabletMode.enabled) return;
+        if (!TabletMode.enabled || TabletMode.always) return;
         let t = TabletMode.isTabletMode ? (root.transformMap[root.orientation] ?? 0) : 0;
         Quickshell.execDetached(["bash", Caching.qsDir + "/watchers/apply_orientation.sh", String(t)]);
     }
@@ -40,7 +40,7 @@ Item {
     }
 
     Process {
-        running: TabletMode.enabled
+        running: TabletMode.enabled && !TabletMode.always
         command: ["monitor-sensor", "--accel"]
         stdout: SplitParser {
             onRead: data => {

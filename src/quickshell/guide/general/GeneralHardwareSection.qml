@@ -115,6 +115,51 @@ SettingsBlob {
 
     SettingsRow {
         rootObj: section.tab.rootObj
+        visible: section.hw.tabletMode === true
+        settingId: "hardware_always_tablet"
+        icon: "󰓷"
+        title: I18n.t("guide.general.hardware.always_tablet.title", "Always in tablet mode")
+        description: I18n.t("guide.general.hardware.always_tablet.desc", "For phones and tablets without a hinge: keep the on-screen keyboard and touch buttons")
+        searchKeywords: "tablet phone always touch keyboard tablette telephone"
+
+        Toggle {
+            id: hardware_always_tabletToggle
+            checked: section.hw.alwaysTablet === true
+            accentColor: ThemeBackend.mauve
+            baseColor: ThemeBackend.surface1
+            handleColor: ThemeBackend.crust
+            handleOffColor: ThemeBackend.text
+            onToggled: function(c) {
+                section.setHw("alwaysTablet", c);
+                hardware_always_tabletToggle.checked = Qt.binding(() => section.hw.alwaysTablet === true);
+            }
+        }
+    }
+
+    SettingsRow {
+        rootObj: section.tab.rootObj
+        settingId: "hardware_display"
+        icon: "󰃠"
+        title: I18n.t("guide.general.hardware.display.title", "Screen control")
+        description: I18n.t("guide.general.hardware.display.desc", "Brightness slider and night light (turn off when the system controls the screen, e.g. on Android)")
+        searchKeywords: "brightness night light gamma blue light luminosite"
+
+        Toggle {
+            id: hardware_displayToggle
+            checked: section.hw.displayControl !== false
+            accentColor: ThemeBackend.mauve
+            baseColor: ThemeBackend.surface1
+            handleColor: ThemeBackend.crust
+            handleOffColor: ThemeBackend.text
+            onToggled: function(c) {
+                section.setHw("displayControl", c);
+                hardware_displayToggle.checked = Qt.binding(() => section.hw.displayControl !== false);
+            }
+        }
+    }
+
+    SettingsRow {
+        rootObj: section.tab.rootObj
         settingId: "hardware_conservation"
         icon: "󰂅"
         title: I18n.t("guide.general.hardware.conservation.title", "Battery conservation")

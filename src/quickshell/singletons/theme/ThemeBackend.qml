@@ -481,6 +481,11 @@ Item {
 
     function applyColorObject(c) {
         if (!c) return;
+        if (typeof Wallpaper !== "undefined" && Wallpaper.reducedMotion) {
+            root._applyColorsNow(c);
+            if (Wallpaper.transitionPending) Wallpaper.colorsReady();
+            return;
+        }
         if (typeof Wallpaper !== "undefined" && Wallpaper.transitionPending) {
             root._stashedColors = c;
             stashTimeout.restart();

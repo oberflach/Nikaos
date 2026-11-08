@@ -97,7 +97,8 @@ lance depuis Paramètres → À propos, ou en relançant l'installateur.
 ## Installation
 
 Nikaos est compatible avec Arch Linux et ses dérivées (par exemple
-EndeavourOS, CachyOS, Manjaro et Garuda) :
+EndeavourOS, CachyOS, Manjaro et Garuda), et avec Arch Linux ARM (voir
+[Android / Nikaos Linux](#android--nikaos-linux)) :
 
 ```bash
 curl -fsSL https://github.com/oberflach/Nikaos/releases/latest/download/get.sh | bash
@@ -130,6 +131,47 @@ Pour rester compatible avec ces trois programmes, Nikaos garde en interne les
 noms de Serpantinum : il s'installe dans `~/.local/share/serpantinum` et garde
 ses réglages dans `~/.config/serpantinum`. Un Serpantinum déjà installé est
 mis à jour sur place, avec ses réglages.
+
+## Android / Nikaos Linux
+
+Nikaos s'installe aussi dans **Nikaos Linux**, une application Android qui fait
+tourner Arch Linux ARM (aarch64) sous proot, sans root. Dans le terminal du
+bureau Linux de l'application :
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/oberflach/nikaos/master/install/get.sh | bash
+```
+
+L'installateur reconnaît l'application (variable `DROIDDECK` ou
+`NIKAOS_ANDROID=1`, ou `/usr/local/bin/droiddeck-desktop`) et s'adapte :
+
+- **Compositeur Sway** : Hyprland ne démarre pas encore dans l'application. La
+  config Sway n'impose aucune résolution, l'écran étant une fenêtre de l'app.
+- **Lancement** : `nikaos session` démarre Sway avec Nikaos (dans une session
+  D-Bus si aucune n'existe). L'application peut appeler cette commande.
+- **Programmes compilés sur place** : `serpantinum-core` (Rust) est compilé
+  depuis ses sources, `serpantinum-audio` utilise sa version aarch64, et
+  Quickshell est compilé si Arch Linux ARM ne le fournit pas. La première
+  installation prend donc du temps.
+- **Sans systemd** : les services sont lancés par le démarrage automatique de
+  Sway. Le serveur audio de l'application est utilisé s'il existe.
+- **Profil léger**, réglable ensuite dans les Paramètres : pas de flou, fonds
+  d'écran statiques, animations réduites, mode tablette permanent (clavier
+  virtuel, boutons tactiles), pas de luminosité ni de lumière bleue (Android
+  gère l'écran).
+
+Pas disponible dans l'application : `serpantinum-gamma`, la luminosité,
+l'enregistrement d'écran par GPU, les profils d'énergie, le VPN système et les
+fonctions propres à Hyprland (transparence par application, flou, règles du
+mode jeu, positions des écrans, espacements).
+
+Pour voir ce que l'installateur ferait sans rien installer :
+
+```bash
+bash install/install.sh --dry-run
+# simuler l'application depuis un PC :
+bash install/install.sh --dry-run --simulate-aarch64 --simulate-no-systemd --simulate-android
+```
 
 ## Modifier Nikaos avec une IA
 

@@ -22,15 +22,19 @@ Item {
     // Settings > General > Hardware: convertible support is off by default,
     // so non-convertible machines never run the switch watcher.
     readonly property bool enabled: (Config.getSetting("hardware", {}) || {}).tabletMode === true
-    onEnabledChanged: if (!enabled) { root.pendingValue = false; root.isTabletMode = false; }
+    // Phones and tablets have no hinge: stay in tablet mode (on-screen
+    // keyboard, touch buttons) without watching a switch.
+    readonly property bool always: enabled && (Config.getSetting("hardware", {}) || {}).alwaysTablet === true
+    onEnabledChanged: if (!enabled) { root.pendingValue = false; root.hingeTablet = false; }
 
-    property bool isTabletMode: false
+    property bool hingeTablet: false
+    readonly property bool isTabletMode: always || hingeTablet
     property bool pendingValue: false
     property int debounceMs: 400
 
     Process {
         id: watcher
-        running: root.enabled
+        running: root.enabled && !root.always
         command: ["bash", Caching.qsDir + "/watchers/tabletmode.sh", "watch"]
         stdout: SplitParser {
             onRead: data => {
@@ -48,6 +52,6 @@ Item {
     Timer {
         id: debounceTimer
         interval: root.debounceMs
-        onTriggered: root.isTabletMode = root.pendingValue
+        onTriggered: root.hingeTablet = root.pendingValue
     }
 }

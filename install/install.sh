@@ -5,7 +5,26 @@ set -e
 setterm -blank 0 -powerdown 0 2>/dev/null || true
 printf '\033[9;0]' 2>/dev/null || true
 
-# Nikaos supports Arch Linux and its derivatives only (pacman).
+# --dry-run prints the plan for this machine and changes nothing. The
+# --simulate-* flags pretend to be another machine (see modules/platform.sh),
+# e.g. the Android app: --dry-run --simulate-aarch64 --simulate-no-systemd --simulate-android
+DRY_RUN=false
+for arg in "$@"; do
+    case "$arg" in
+        --dry-run) DRY_RUN=true ;;
+        --simulate-aarch64) export NIKAOS_SIMULATE_ARCH=aarch64 ;;
+        --simulate-no-systemd) export NIKAOS_SIMULATE_NO_SYSTEMD=1 ;;
+        --simulate-android) export NIKAOS_SIMULATE_ANDROID=1 ;;
+    esac
+done
+if [ "$DRY_RUN" = true ]; then
+    source "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/modules/platform.sh"
+    nikaos_print_plan
+    exit 0
+fi
+
+# Nikaos supports Arch Linux and its derivatives only (pacman), including
+# Arch Linux ARM (aarch64).
 if ! command -v pacman &>/dev/null; then
     echo "Nikaos s'installe sur Arch Linux et ses dérivées (EndeavourOS, CachyOS, Manjaro, Garuda...)."
     echo "Nikaos installs on Arch Linux and its derivatives only."
@@ -64,6 +83,7 @@ export I18N_DIR="$PROJECT_ROOT/src/assets/languages"
 MODULES_DIR="$INSTALL_DIR/modules"
 
 source "$PROJECT_ROOT/src/scripts/i18n.sh"
+source "$MODULES_DIR/platform.sh"
 source "$MODULES_DIR/pm.sh"
 source "$MODULES_DIR/deps.sh"
 source "$MODULES_DIR/ski.sh"
@@ -123,6 +143,7 @@ install_wallpapers "$INSTALL_FULL_WALLPAPERS"
 WALLPAPER_DIR=$(get_wallpaper_dir)
 init_serpantinum_config "$PROJECT_ROOT" "$WALLPAPER_DIR" "$INSTALL_STATE" "$IS_REINSTALL"
 configure_ski_defaults
+apply_android_profile
 
 setup_services
 hand_over_from_easyeffects

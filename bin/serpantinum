@@ -90,6 +90,7 @@ show_help() {
     echo "  ipc ...                      $(t "cli.ipc_desc")"
     echo "  kill                         $(t "cli.kill_desc")"
     echo "  restart                      $(t "cli.restart_desc")"
+    echo "  session                      $(t "cli.session_desc")"
     echo "  config <action> [args]       $(t "cli.config_desc")"
     echo "  info <topic>                 $(t "cli.info_desc")"
     echo "  set <topic> [value]          $(t "cli.set_desc")"
@@ -221,6 +222,12 @@ done
 if [ $# -eq 0 ]; then
     show_help
     exit 0
+fi
+
+# Nikaos: start a compositor with the shell (no display manager needed).
+if [[ "$1" == "session" ]]; then
+    shift
+    exec bash "$SERPANTINUM_DIR/scripts/session.sh" "$@"
 fi
 
 stop_daemon() {

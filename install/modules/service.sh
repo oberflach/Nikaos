@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
 detect_init_system() {
-    if [[ -d /run/systemd/system ]] || command -v systemctl &>/dev/null; then
+    if nikaos_has_systemd; then
         echo "systemd"
+    elif command -v systemctl &>/dev/null || [[ -d /usr/lib/systemd ]]; then
+        # systemd installed but not running (proot, containers): no init to talk to.
+        echo "none"
     elif command -v openrc-init &>/dev/null || [[ -d /run/openrc ]]; then
         echo "openrc"
     elif command -v dinit &>/dev/null || [[ -d /etc/dinit.d ]]; then
@@ -93,9 +96,51 @@ enable_user_service() {
     esac
 }
 
+# Without an init system (Android proot), the compositor's autostart brings up
+# the audio server, and only when the app does not already provide one.
+# serpantinum-core and -audio need nothing: the shell starts them on demand.
+NIKAOS_NOINIT_AUDIO='pactl info >/dev/null 2>&1 || { pipewire & sleep 1; wireplumber & pipewire-pulse & }'
+
+setup_noinit_autostart() {
+    local comp file line
+    for comp in "${SELECTED_COMPOSITORS[@]}"; do
+        case "$comp" in
+            sway)
+                file="$HOME/.config/sway/configDir/autostart"
+                line="exec sh -c '$NIKAOS_NOINIT_AUDIO'"
+                ;;
+            hyprland)
+                file="$HOME/.config/hypr/config/autostart.lua"
+                line="  hl.exec_cmd([[sh -c '$NIKAOS_NOINIT_AUDIO']])"
+                ;;
+            mango)
+                file="$HOME/.config/mango/config/autostart.conf"
+                line="exec_once=sh -c '$NIKAOS_NOINIT_AUDIO'"
+                ;;
+            *) continue ;;
+        esac
+        [ -f "$file" ] || continue
+        grep -qF "pactl info" "$file" && continue
+        if [ "$comp" = hyprland ]; then
+            # The Lua autostart is one function: add the line right after the
+            # one that starts serpantinumd, inside it.
+            awk -v add="$line" '{ print } !done && /serpantinumd start/ { print add; done = 1 }' "$file" > "$file.tmp" \
+                && mv "$file.tmp" "$file"
+        else
+            printf '%s\n' "$line" >> "$file"
+        fi
+    done
+}
+
 setup_services() {
     local init_sys
     init_sys=$(detect_init_system)
+
+    if [[ "$init_sys" == "none" ]]; then
+        echo -e "\n\e[36m[ INFO ]\e[0m No running init system: services are started by the compositor."
+        setup_noinit_autostart
+        return 0
+    fi
 
     if declare -f pm_setup_services >/dev/null; then
         pm_setup_services "$init_sys"

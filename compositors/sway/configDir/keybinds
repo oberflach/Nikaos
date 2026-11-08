@@ -74,3 +74,7 @@ bindsym $mod+Shift+7 exec serpantinum msg workspace 7 move
 bindsym $mod+Shift+8 exec serpantinum msg workspace 8 move
 bindsym $mod+Shift+9 exec serpantinum msg workspace 9 move
 bindsym $mod+Shift+0 exec serpantinum msg workspace 10 move
+
+# Nikaos: Super+G overlay and Super+Shift+G game mode.
+bindsym $mod+G exec serpantinum ipc call overlay toggle
+bindsym $mod+Shift+G exec serpantinum ipc call gamemode toggle

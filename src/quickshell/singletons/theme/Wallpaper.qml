@@ -15,6 +15,11 @@ Item {
     // started yet; ThemeBackend holds new colours back meanwhile and morphs
     // them over the transition once transitionStarted fires.
     property bool transitionPending: false
+
+    // Settings > General > Performance (light profile on Nikaos Linux).
+    readonly property var performance: (typeof Config !== "undefined" ? Config.getSetting("performance", {}) : {}) || {}
+    readonly property bool reducedMotion: performance.reducedMotion === true
+    readonly property bool staticWallpapers: performance.staticWallpapers === true
     signal transitionStarted(int duration)
     signal colorsReady()
 
@@ -67,8 +72,9 @@ Item {
             let candidates = s.mode === "custom" ? s.pool : root.transitionIds;
             id = candidates[Math.floor(Math.random() * candidates.length)];
         }
+        if (root.reducedMotion) id = "fade";
         let fx = s.effects[id];
-        let duration = Number(fx.duration);
+        let duration = root.reducedMotion ? 200 : Number(fx.duration);
         let dirIdx = root.swipeDirections.indexOf(fx.direction);
         return {
             "type": root.transitionIds.indexOf(id),

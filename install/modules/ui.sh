@@ -80,6 +80,16 @@ read_key() {
 }
 
 init_compositor_detection() {
+    # Nikaos Linux (Android): Sway first, Hyprland (aquamarine) does not start
+    # in the app yet. No display manager either: the app starts the session.
+    if nikaos_is_android; then
+        SELECTED_COMPOSITORS=("sway")
+        DETECTED_COMPOSITOR_LABEL="sway (Nikaos Linux)"
+        OPT_SDDM=false
+        echo -e "\e[36m[ INFO ]\e[0m Nikaos Linux detected: Sway is used as the compositor (start it with: nikaos session)."
+        return
+    fi
+
     local installed=()
     for comp in hyprland niri sway mango; do
         if command -v "$comp" &>/dev/null || pm_is_installed "$(compositor_package_name "$comp")"; then

@@ -57,3 +57,31 @@ init_serpantinum_config() {
         fi
     fi
 }
+
+# Nikaos Linux (Android): light defaults, applied once so later changes made
+# in the settings are kept on the next install.
+apply_android_profile() {
+    nikaos_is_android || return 0
+    [ -f "$CONFIG_FILE" ] || echo "{}" > "$CONFIG_FILE"
+    if jq -e '.nikaosProfile == "android"' "$CONFIG_FILE" >/dev/null 2>&1; then
+        return 0
+    fi
+    local merged
+    merged=$(jq '
+        . * {
+            nikaosProfile: "android",
+            theme: {blurBackground: false},
+            performance: {reducedMotion: true, staticWallpapers: true},
+            hardware: {displayControl: false, tabletMode: true, alwaysTablet: true},
+            wallpaperSlideshow: {enabled: false}
+        }' "$CONFIG_FILE" 2>/dev/null)
+    [ -n "$merged" ] && echo "$merged" > "$CONFIG_FILE"
+    echo -e "\e[36m[ INFO ]\e[0m Light profile for Nikaos Linux: no blur, static wallpapers, reduced motion, tablet mode (change them in Settings)."
+
+    # The screen is a window of the app: let it pick the size, force nothing.
+    local sway_output="$HOME/.config/sway/configDir/output"
+    if [ -d "$(dirname "$sway_output")" ]; then
+        printf '%s\n' "# Nikaos Linux: the output is a window of the Android app, so no" \
+            "# mode, position or scale is forced here. Add 'output * scale 2' etc. if needed." > "$sway_output"
+    fi
+}

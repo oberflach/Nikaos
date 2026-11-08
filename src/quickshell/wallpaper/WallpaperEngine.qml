@@ -394,8 +394,12 @@ ShellRoot {
 
                     let cleanPath = String(path).trim();
                     let vid = barWindow.isVideo(cleanPath);
+                    // Static wallpapers (performance setting): a video shows its
+                    // poster instead of playing.
+                    let staticPoster = (vid && Wallpaper.staticWallpapers) ? (globalRoot.slideshowIndexMap[cleanPath] || "") : "";
+                    if (staticPoster !== "") vid = false;
                     if (vid) barWindow.snapshotLayer(barWindow.activeLayer === 1 ? 0 : 1, cleanPath);
-                    let playPath = vid ? barWindow.playbackPath(cleanPath) : cleanPath;
+                    let playPath = staticPoster !== "" ? staticPoster : (vid ? barWindow.playbackPath(cleanPath) : cleanPath);
 
                     let slash = cleanPath.lastIndexOf("/");
                     let filename = cleanPath.substring(slash + 1);
@@ -731,6 +735,7 @@ ShellRoot {
                             visible: !barWindow.isVideoA && barWindow.pathA !== ""
                             cache: true
                             speed: barWindow.playbackPaused ? 0 : 1
+                            playing: !Wallpaper.staticWallpapers
                             sourceSize.width: parent.width > 0 ? Math.ceil(parent.width * (Screen.devicePixelRatio || 1)) : 0
                             sourceSize.height: parent.height > 0 ? Math.ceil(parent.height * (Screen.devicePixelRatio || 1)) : 0
                         }
@@ -800,6 +805,7 @@ ShellRoot {
                             visible: !barWindow.isVideoB && barWindow.pathB !== ""
                             cache: true
                             speed: barWindow.playbackPaused ? 0 : 1
+                            playing: !Wallpaper.staticWallpapers
                             sourceSize.width: parent.width > 0 ? Math.ceil(parent.width * (Screen.devicePixelRatio || 1)) : 0
                             sourceSize.height: parent.height > 0 ? Math.ceil(parent.height * (Screen.devicePixelRatio || 1)) : 0
                         }

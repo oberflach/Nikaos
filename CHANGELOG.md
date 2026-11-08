@@ -6,6 +6,34 @@ Chaque version a sa release sur GitHub, avec les notes ci-dessous :
 corrections, celui du milieu pour des nouveautés, le premier pour un grand
 changement.
 
+## 2.7.0 — 8 novembre 2026
+
+### Nouveautés
+- **Nikaos sur Android (Nikaos Linux)** : l'installateur reconnaît
+  l'application et Arch Linux ARM (aarch64), installe Sway, compile sur place
+  les programmes qui n'existent qu'en x86_64 (serpantinum-core, et Quickshell
+  si besoin) et fonctionne sans systemd.
+- **Commande `nikaos session`** : démarre Sway (ou Mango, Hyprland, Niri) avec
+  Nikaos, sans gestionnaire de connexion.
+- **Paramètres → Général → Performance** : animations réduites et fonds
+  d'écran statiques (les vidéos affichent leur aperçu, les GIF restent figés).
+- **Paramètres → Général → Matériel** : « Toujours en mode tablette » pour les
+  appareils sans charnière, et « Contrôle de l'écran » pour masquer la
+  luminosité et la lumière bleue.
+- **Profil léger automatique** dans l'application Android : pas de flou, fonds
+  statiques, animations réduites, mode tablette, sans contrôle de l'écran.
+- `install/install.sh --dry-run` montre ce que l'installateur ferait, sans
+  rien changer.
+
+### Corrections
+- La configuration Sway fournie se charge de nouveau : ses fichiers étaient
+  inclus depuis un mauvais dossier, donc ni les raccourcis ni Nikaos ne
+  démarraient sous Sway. Super+G et Super+Shift+G y sont ajoutés.
+- Sans systemd (conteneurs, proot), l'installateur ne tente plus d'utiliser
+  `systemctl`.
+
+---
+
 ## 2.6.6 — 8 novembre 2026
 
 ### Corrections

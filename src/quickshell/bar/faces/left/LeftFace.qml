@@ -47,6 +47,8 @@ Item {
         let dummy = configRevision;
         let bs = (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar) ? Config.rawSettings.bar : {};
         let items = BarModuleRegistry.menuItemsFromSettings(bs);
+        // No night light button without screen control (Nikaos Linux).
+        if ((Config.getSetting("hardware", {}) || {}).displayControl === false) items = items.filter(i => i !== "nightlight");
         // Local: tablet mode adds the on-screen keyboard and the launcher.
         if (TabletMode.isTabletMode && !root.isPreview) {
             items = items.slice();

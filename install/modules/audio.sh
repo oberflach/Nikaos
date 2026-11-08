@@ -13,7 +13,7 @@ audio_installed_version() {
 }
 
 audio_arch() {
-    case "$(uname -m)" in
+    case "$(nikaos_arch)" in
         x86_64|amd64) echo "x86_64" ;;
         aarch64|arm64) echo "aarch64" ;;
         *) return 1 ;;

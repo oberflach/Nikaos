@@ -29,6 +29,13 @@ core_install_prebuilt() {
 
     mkdir -p "$work/stage"
     tar -xzf "$archive" -C "$work/stage" || return 1
+    core_install_staged "$work"
+}
+
+# Installs a staged tree ($work/stage/usr/...), from the prebuilt tarball or a
+# source build.
+core_install_staged() {
+    local work="$1"
     "$work/stage/usr/bin/serpantinum-core" --version >/dev/null 2>&1 || return 1
 
     sudo install -Dm755 "$work/stage/usr/bin/serpantinum-core" "$CORE_PREFIX/bin/serpantinum-core" || return 1
@@ -43,11 +50,6 @@ install_core_daemon() {
     echo -e "\n\e[36m[ INFO ]\e[0m $(t "installer.core.installing")"
     current="$(core_installed_version)"
 
-    if [ "$(uname -m)" != "x86_64" ]; then
-        echo -e "\e[33m[ WARN ]\e[0m $(t "installer.core.unsupported_arch")"
-        [ -n "$current" ] || FAILED_PKGS+=("serpantinum-core")
-        return 0
-    fi
 
     if ! json="$(core_release_json)" || [ -z "$json" ]; then
         echo -e "\e[33m[ WARN ]\e[0m $(t "installer.core.download_failed")"
@@ -70,7 +72,10 @@ install_core_daemon() {
     mkdir -p "$cache"
     work="$(mktemp -d "$cache/serpantinum-core.XXXXXX")"
 
-    if core_install_prebuilt "$json" "$work"; then
+    # Prebuilt tarballs exist for x86_64 only: elsewhere (aarch64), build the
+    # release tag from source with cargo.
+    if { nikaos_is_x86_64 && core_install_prebuilt "$json" "$work"; } \
+        || { ! nikaos_is_x86_64 && nikaos_build_rust_helper "$CORE_REPO" "$tag" serpantinum-core "$work" && core_install_staged "$work"; }; then
         hash -r
         echo -e "\e[32m[ OK ] $(t "installer.core.installed" "version=${tag#v}")\e[0m"
         restart_daemon_if_running serpantinum-core '(^|/)serpantinum-core$' quit

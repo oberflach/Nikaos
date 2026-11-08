@@ -29,6 +29,13 @@ gamma_install_prebuilt() {
 
     mkdir -p "$work/stage"
     tar -xzf "$archive" -C "$work/stage" || return 1
+    gamma_install_staged "$work"
+}
+
+# Installs a staged tree ($work/stage/usr/...), from the prebuilt tarball or a
+# source build.
+gamma_install_staged() {
+    local work="$1"
     "$work/stage/usr/bin/serpantinum-gamma" --version >/dev/null 2>&1 || return 1
 
     sudo install -Dm755 "$work/stage/usr/bin/serpantinum-gamma" "$GAMMA_PREFIX/bin/serpantinum-gamma" || return 1
@@ -43,11 +50,12 @@ install_gamma_daemon() {
     echo -e "\n\e[36m[ INFO ]\e[0m $(t "installer.gamma.installing")"
     current="$(gamma_installed_version)"
 
-    if [ "$(uname -m)" != "x86_64" ]; then
-        echo -e "\e[33m[ WARN ]\e[0m $(t "installer.gamma.unsupported_arch")"
-        [ -n "$current" ] || FAILED_PKGS+=("serpantinum-gamma")
+    # Nikaos Linux (Android): the app owns the screen, gamma cannot work.
+    if nikaos_is_android; then
+        echo -e "\e[33m[ WARN ]\e[0m serpantinum-gamma skipped: Android controls the screen."
         return 0
     fi
+
 
     if ! json="$(gamma_release_json)" || [ -z "$json" ]; then
         echo -e "\e[33m[ WARN ]\e[0m $(t "installer.gamma.download_failed")"
@@ -70,7 +78,10 @@ install_gamma_daemon() {
     mkdir -p "$cache"
     work="$(mktemp -d "$cache/serpantinum-gamma.XXXXXX")"
 
-    if gamma_install_prebuilt "$json" "$work"; then
+    # Prebuilt tarballs exist for x86_64 only: elsewhere (aarch64), build the
+    # release tag from source with cargo.
+    if { nikaos_is_x86_64 && gamma_install_prebuilt "$json" "$work"; } \
+        || { ! nikaos_is_x86_64 && nikaos_build_rust_helper "$GAMMA_REPO" "$tag" serpantinum-gamma "$work" && gamma_install_staged "$work"; }; then
         hash -r
         echo -e "\e[32m[ OK ] $(t "installer.gamma.installed" "version=${tag#v}")\e[0m"
     else
