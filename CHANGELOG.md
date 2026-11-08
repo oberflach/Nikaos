@@ -6,6 +6,19 @@ Chaque version a sa release sur GitHub, avec les notes ci-dessous :
 corrections, celui du milieu pour des nouveautés, le premier pour un grand
 changement.
 
+## 2.6.3 — 8 novembre 2026
+
+### Nouveautés
+- Le bouton **Mise à jour** ouvre maintenant un panneau qui liste toutes les
+  versions plus récentes que la version installée, avec les notes de chacune.
+- Une version précise peut être sélectionnée avant de lancer l'installation.
+
+### Corrections
+- Le bouton de mise à jour lance correctement l'installateur dans un terminal,
+  au lieu d'essayer d'exécuter le script d'installation de façon invalide.
+
+---
+
 ## 2.6.2 — 8 novembre 2026
 
 ### Nouveautés
