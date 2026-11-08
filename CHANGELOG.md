@@ -6,6 +6,19 @@ Chaque version a sa release sur GitHub, avec les notes ci-dessous :
 corrections, celui du milieu pour des nouveautés, le premier pour un grand
 changement.
 
+## 2.7.0 — 8 novembre 2026
+
+### Nouveautés
+- L'installateur propose désormais un choix de version avant de démarrer : la
+  dernière version stable (recommandée et sélectionnée par défaut), la branche
+  de développement ou une version précise.
+
+### Améliorations
+- Les choix avancés sont expliqués dans l'installateur pour que la première
+  installation reste simple : appuyer sur Entrée installe la version stable.
+
+---
+
 ## 2.6.1 — 8 novembre 2026
 
 ### Corrections
