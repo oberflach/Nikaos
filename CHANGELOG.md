@@ -6,7 +6,7 @@ Chaque version a sa release sur GitHub, avec les notes ci-dessous :
 corrections, celui du milieu pour des nouveautés, le premier pour un grand
 changement.
 
-## 2.7.0 — 8 novembre 2026
+## 2.6.2 — 8 novembre 2026
 
 ### Nouveautés
 - L'installateur propose désormais un choix de version avant de démarrer : la
