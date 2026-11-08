@@ -37,6 +37,7 @@ Première version de Nikaos, basée sur Serpantinum 2.4.3.
   Images et Vidéos du système, même quand ils ont un nom traduit.
 - Les captures lancées depuis Super+G n'incluent plus l'overlay à moitié
   transparent.
+- En mode tablette, l'écran tourne de nouveau automatiquement avec l'appareil.
 
 ### Autres changements
 - Le bouton de mise à jour suit les releases de Nikaos.

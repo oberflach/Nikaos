@@ -1,74 +1,98 @@
 # Nikaos
 
-Nikaos est un shell de bureau écrit en QML avec
-[Quickshell](https://quickshell.outfoxxed.me/), pensé pour Hyprland. C'est un
-fork de [Serpantinum](https://github.com/ilyamiro/serpantinum) par **ilyamiro** :
-il en garde toutes les fonctions (barre, paramètres, widgets, lanceur, écran de
-verrouillage, notifications, thème Material You tiré du fond d'écran…) et y
-ajoute les siennes. Tout se règle depuis les paramètres, sans éditer de
+Nikaos est un shell de bureau complet pour Linux, écrit en QML avec
+[Quickshell](https://quickshell.outfoxxed.me/) et pensé pour Hyprland. Il
+remplace la barre, le lanceur, les notifications, l'écran de verrouillage et
+les panneaux système par une interface unique dont les couleurs suivent le
+fond d'écran. Tout se règle depuis les paramètres (Super+H), sans éditer de
 fichier.
 
-*Nikaos is a Quickshell desktop shell for Hyprland, forked from Serpantinum by ilyamiro. Everything is set from the settings, no config file to edit.*
+C'est un fork de [Serpantinum](https://github.com/ilyamiro/serpantinum) par
+**ilyamiro**, sous licence AGPL-3.0.
 
-## Ce que Nikaos ajoute
+*Nikaos is a complete Quickshell desktop shell for Hyprland, forked from Serpantinum by ilyamiro. Everything is set from the settings.*
+
+**Version actuelle : voir [les releases](https://github.com/oberflach/nikaos/releases).**
+
+## Fonctionnalités principales
+
+### L'interface
+- **Barre** configurable : bureaux, musique, météo, horloge, moniteur système
+  (CPU, GPU, RAM, température, disque), réseau, Bluetooth, volume, batterie,
+  zone de notification. Modules et ordre réglables, plusieurs styles.
+- **Lanceur d'applications** (Super+D) avec calculatrice, convertisseur,
+  recherche de fichiers et recherche web (`?`).
+- **Panneau système** (Super+B) : luminosité, volume, profils d'énergie,
+  caféine, lumière bleue, Wi-Fi, Bluetooth, mode avion.
+- **Popups** : musique avec paroles et égaliseur, calendrier, réseau, volume,
+  notifications, presse-papiers.
+- **Panneau qui glisse du bord de l'écran** : utilisation système, notes,
+  calculatrice, minuteur, dessin.
+- **Écran de verrouillage** personnalisable, avec son propre éditeur.
+- **Widgets de bureau** (horloges, musique, météo, système, GPU, batterie,
+  notes, texte, images, GIF…) à placer dans l'éditeur de widgets.
+- **Bien-être numérique** : temps d'écran par application et limites.
+- **Captures et enregistrements d'écran**, avec OCR pour copier du texte.
 
 ### Couleurs dynamiques
-- La barre et les widgets **changent de couleur en même temps que le fond
-  d'écran**, pendant sa transition (image, GIF ou vidéo).
-- **Nuance de chaque icône de la barre** (teinte et luminosité) :
-  Paramètres → Thème → Nuances des icônes.
-- **Nuance de chaque widget** : clic droit sur un widget dans l'éditeur de
-  widgets. Les textes restent lisibles sur les fonds assombris.
-- **Opacité du fond des widgets** seule, le texte reste net.
-
-### Super+G : l'overlay
-Un panneau de cartes à afficher, déplacer, redimensionner et épingler :
-- **Enregistreur** : captures et vidéos, d'une zone ou de l'écran entier.
-- **Volume** : sortie, entrée et mixage par application.
-- **Ressources** : courbes du processeur, de la RAM, de la température, du GPU
-  et de la mémoire d'échange.
-- **Viseur** : réticule au centre de l'écran (croix, point ou cercle).
-- **Notes**, **Applications ouvertes** (avec fermeture).
-- **Transparence par application**, mémorisée, et interrupteur **Flou** :
-  seules les fenêtres transparentes sont floutées.
-- **Image flottante** : image ou GIF épinglé sur le bureau, masqué en plein
-  écran.
-- **Mode jeu** (voir plus bas) et bouton **VPN**.
-
-### Mode jeu
-Super+Shift+G, la carte Mode jeu de Super+G, ou automatiquement tant qu'un
-jeu choisi est ouvert. Chaque réglage s'active « en jeu » ou « toujours » :
-- décharger le fond, les widgets et l'image flottante ;
-- mettre en pause le visualiseur de musique ;
-- fenêtres opaques, pas de flou, pas d'animations ;
-- direct scanout et VRR en plein écran ;
-- profil d'énergie « performance » ;
-- commandes personnalisées au début et à la fin.
+- Les couleurs de toute l'interface sont **tirées du fond d'écran**
+  (Material You), et peuvent s'appliquer à d'autres applications
+  (Paramètres → Thème → Applis).
+- Elles **changent en même temps que le fond**, pendant sa transition
+  (image, GIF ou vidéo).
+- **Nuance de chaque icône de la barre** (Paramètres → Thème) et **de chaque
+  widget** (clic droit dans l'éditeur de widgets).
+- Opacité du fond des widgets, verre liquide, flou.
 
 ### Fonds d'écran
-- **Diaporama** (aléatoire ou trié par couleur) depuis le sélecteur de fonds.
-- **Fonds vidéo allégés** : lus depuis des copies à la taille de l'écran
-  (Paramètres → Fonds d'écran), pour économiser le GPU.
-- **GIF** en fond d'écran, thème tiré de l'aperçu des vidéos.
+- Images, **GIF** et **vidéos**, avec transitions réglables.
+- **Diaporama** aléatoire ou trié par couleur, favoris, recherche en ligne.
+- **Fonds vidéo allégés** (Paramètres → Fonds d'écran) pour économiser le GPU.
 
-### Barre et système
-- **Charge du GPU** dans la barre, le panneau qui glisse du bord et en widget.
-- Style de moniteur système **« pills »**.
-- **Position des écrans secondaires** : Paramètres → Affichage.
-- **Espacements des fenêtres** Hyprland : Paramètres → Général, et Super+U
-  pour un mode sans bordure.
-- **Liste des raccourcis** : Super+/.
-- Le lecteur choisi dans la popup musique devient le lecteur principal.
+### Super+G : l'overlay
+Des cartes à afficher, déplacer, redimensionner et épingler : enregistreur,
+volume par application, ressources, viseur, notes, applications ouvertes,
+**transparence par application** avec interrupteur de flou, **image
+flottante**, **mode jeu** et VPN.
+
+### Mode jeu
+Super+Shift+G, ou automatique quand un jeu choisi est ouvert. Il décharge le
+fond et les widgets, met les fenêtres en opaque, coupe le flou et les
+animations, active le direct scanout et le VRR, peut passer en profil
+performance et lancer des commandes personnalisées. Chaque réglage peut
+s'appliquer « en jeu » ou « toujours ».
+
+### Fenêtres et écrans
+- Espacements des fenêtres réglables, mode sans bordure (Super+U).
+- Position des écrans secondaires (Paramètres → Affichage).
+- Liste des raccourcis clavier : Super+/.
 
 ### Matériel (Paramètres → Général → Matériel)
 Désactivé par défaut, détecté automatiquement, configuré en un clic :
-- **Mode tablette** pour les PC convertibles : charnière, rotation de l'écran,
-  clavier virtuel et boutons tactiles dans la barre.
-- **Conservation de batterie** (Lenovo IdeaPad / Yoga) : le bouton
-  « Configurer » donne l'autorisation nécessaire (mot de passe demandé).
+- **Mode tablette** pour les PC convertibles : rotation de l'écran, clavier
+  virtuel, boutons tactiles.
+- **Conservation de batterie** (Lenovo IdeaPad / Yoga).
 - **Connexion VPN** activable depuis Super+G.
-- **Transparence de Kitty et de Vesktop** depuis Super+G : un bouton
-  « Configurer » prépare chaque application.
+- **Transparence de Kitty et de Vesktop** depuis Super+G.
+
+## Versions et mises à jour
+
+Chaque version est publiée comme une
+[release GitHub](https://github.com/oberflach/nikaos/releases), avec des
+notes qui expliquent ce qui change. Les mêmes notes sont dans
+[CHANGELOG.md](CHANGELOG.md).
+
+Les numéros suivent la forme **MAJEURE.MINEURE.CORRECTIF**, par exemple
+`2.5.1` :
+
+| Chiffre qui change | Signification | Exemple |
+|---|---|---|
+| Le dernier (correctif) | Corrections de bugs, rien ne change dans l'usage | 2.5.0 → 2.5.1 |
+| Celui du milieu (mineure) | Nouvelles fonctions ou options | 2.5.1 → 2.6.0 |
+| Le premier (majeure) | Grand changement, à lire avant de mettre à jour | 2.6.0 → 3.0.0 |
+
+Nikaos prévient quand une nouvelle release est disponible. La mise à jour se
+lance depuis Paramètres → À propos, ou en relançant l'installateur.
 
 ## Installation
 
@@ -85,10 +109,7 @@ L'installateur met en place les dépendances, Quickshell et les programmes
 [serpantinum-audio](https://github.com/ilyamiro/serpantinum-audio) et
 [serpantinum-gamma](https://github.com/ilyamiro/serpantinum-gamma), qui restent
 ceux de Serpantinum. La commande `nikaos` pilote le shell, par exemple
-`nikaos restart`. Le bouton de mise à jour de la page « À propos » suit ce
-dépôt : chaque nouvelle version est publiée comme une
-[release](https://github.com/oberflach/nikaos/releases), avec ses notes dans
-[CHANGELOG.md](CHANGELOG.md).
+`nikaos restart`.
 
 Pour rester compatible avec ces trois programmes, Nikaos garde en interne les
 noms de Serpantinum : il s'installe dans `~/.local/share/serpantinum` et garde
@@ -108,6 +129,3 @@ Nikaos est distribué sous licence **GNU AGPL-3.0**, comme Serpantinum (voir
 [LICENSE.md](LICENSE.md)). Il est basé sur Serpantinum, © ilyamiro et ses
 contributeurs : <https://github.com/ilyamiro/serpantinum>. Les modifications
 propres à Nikaos sont © oberflach, sous la même licence.
-
-Les notes de chaque version de Nikaos, suivies de l'historique de Serpantinum,
-sont dans [CHANGELOG.md](CHANGELOG.md).
