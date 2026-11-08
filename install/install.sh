@@ -5,6 +5,13 @@ set -e
 setterm -blank 0 -powerdown 0 2>/dev/null || true
 printf '\033[9;0]' 2>/dev/null || true
 
+# Nikaos supports Arch Linux and its derivatives only (pacman).
+if ! command -v pacman &>/dev/null; then
+    echo "Nikaos s'installe sur Arch Linux et ses dérivées (EndeavourOS, CachyOS, Manjaro, Garuda...)."
+    echo "Nikaos installs on Arch Linux and its derivatives only."
+    exit 1
+fi
+
 RAW_SLUG="${REPO_SLUG:-oberflach/nikaos}"
 REPO_SLUG="$(printf '%s' "$RAW_SLUG" | tr -d '\r\n\t ' | sed 's/[^a-zA-Z0-9_\/-]//g')"
 CACHE_BASE="${XDG_CACHE_HOME:-$HOME/.cache}/nikaos-installer"

@@ -96,12 +96,26 @@ lance depuis Paramètres → À propos, ou en relançant l'installateur.
 
 ## Installation
 
-Arch Linux, Fedora, Void Linux et leurs dérivées :
+Nikaos est compatible avec Arch Linux et ses dérivées (par exemple
+EndeavourOS, CachyOS, Manjaro et Garuda) :
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/oberflach/nikaos/master/install/get.sh | bash
+```
+
+Ou, pour installer depuis un clone du dépôt :
 
 ```bash
 git clone https://github.com/oberflach/nikaos.git
 cd nikaos
 bash install/install.sh
+```
+
+L'installateur télécharge la dernière release par défaut. Pour tester une
+branche ou une version précise, définissez `NIKAOS_REF`, par exemple :
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/oberflach/nikaos/master/install/get.sh | NIKAOS_REF=master bash
 ```
 
 L'installateur met en place les dépendances, Quickshell et les programmes
