@@ -7,7 +7,7 @@ printf '\033[9;0]' 2>/dev/null || true
 
 RAW_SLUG="${REPO_SLUG:-oberflach/nikaos}"
 REPO_SLUG="$(printf '%s' "$RAW_SLUG" | tr -d '\r\n\t ' | sed 's/[^a-zA-Z0-9_\/-]//g')"
-CACHE_BASE="${XDG_CACHE_HOME:-$HOME/.cache}/serpantinum-installer"
+CACHE_BASE="${XDG_CACHE_HOME:-$HOME/.cache}/nikaos-installer"
 export REPO_SLUG
 export SERPANTINUM_INSTALLER=1
 
@@ -38,6 +38,14 @@ if [[ -z "$PROJECT_ROOT" || ! -f "$PROJECT_ROOT/install/modules/deps.sh" || ! -d
         git -C "$CACHE_BASE" remote set-url origin "https://github.com/${REPO_SLUG}.git" 2>/dev/null || true
         git -C "$CACHE_BASE" fetch origin 2>/dev/null || true
         git -C "$CACHE_BASE" reset --hard origin/HEAD 2>/dev/null || git -C "$CACHE_BASE" reset --hard origin/main 2>/dev/null || git -C "$CACHE_BASE" reset --hard origin/master 2>/dev/null || true
+    fi
+    # Nikaos: install the latest release (tag vX.Y.Z), not whatever is on
+    # master. NIKAOS_REF picks another tag or branch, e.g. NIKAOS_REF=master.
+    git -C "$CACHE_BASE" fetch --tags origin 2>/dev/null || true
+    TARGET_REF="${NIKAOS_REF:-$(git -C "$CACHE_BASE" tag --list 'v*' --sort=-v:refname | head -n1)}"
+    if [ -n "$TARGET_REF" ]; then
+        git -C "$CACHE_BASE" checkout -q --detach "$TARGET_REF" 2>/dev/null \
+            || git -C "$CACHE_BASE" checkout -q --detach "origin/$TARGET_REF" 2>/dev/null || true
     fi
     INSTALL_DIR="$CACHE_BASE/install"
     PROJECT_ROOT="$CACHE_BASE"

@@ -167,7 +167,7 @@ GuideTab {
                             accentColor: ThemeBackend.surface0
                             textColor: ThemeBackend.text
 
-                            onTriggered: Quickshell.execDetached(["xdg-open", "https://github.com/oberflach/nikaos/blob/master/CHANGELOG.md"])
+                            onTriggered: Quickshell.execDetached(["xdg-open", "https://github.com/oberflach/nikaos/releases"])
                         }
 
                         FillButton {

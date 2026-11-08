@@ -137,3 +137,20 @@ src/assets/             languages/*.json (translations), shaders, fonts, matugen
 - Shaders: edit the `.frag` file, then compile it next to it:
   `/usr/lib/qt6/bin/qsb --glsl "100es,120,150" --hlsl 50 --msl 12 -o file.frag.qsb file.frag`.
 - Before deleting or overwriting the user's files, back them up and tell them.
+
+## Versions and releases
+
+Updates reach users as **GitHub releases**: the update button
+(`src/scripts/updater.py`) compares the installed version with the latest
+release, and the installer installs the latest release tag.
+
+- Version numbers are `MAJOR.MINOR.PATCH` (patch: fixes, minor: new features,
+  major: big changes), continuing Serpantinum's numbering.
+- Every release needs a `## X.Y.Z — date` section at the top of
+  `CHANGELOG.md`, written for users in plain language (what changed for them,
+  where to find it), grouped under *Nouveautés*, *Corrections*,
+  *Autres changements*. No commit-style jargon.
+- Then run `tools/release.sh X.Y.Z` (writes `version.txt`, commits, tags
+  `vX.Y.Z`) and `git push origin master --tags`. The workflow
+  `.github/workflows/release.yml` creates the release from that changelog
+  section.

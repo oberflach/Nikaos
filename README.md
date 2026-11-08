@@ -86,7 +86,9 @@ L'installateur met en place les dépendances, Quickshell et les programmes
 [serpantinum-gamma](https://github.com/ilyamiro/serpantinum-gamma), qui restent
 ceux de Serpantinum. La commande `nikaos` pilote le shell, par exemple
 `nikaos restart`. Le bouton de mise à jour de la page « À propos » suit ce
-dépôt.
+dépôt : chaque nouvelle version est publiée comme une
+[release](https://github.com/oberflach/nikaos/releases), avec ses notes dans
+[CHANGELOG.md](CHANGELOG.md).
 
 Pour rester compatible avec ces trois programmes, Nikaos garde en interne les
 noms de Serpantinum : il s'installe dans `~/.local/share/serpantinum` et garde
@@ -107,5 +109,5 @@ Nikaos est distribué sous licence **GNU AGPL-3.0**, comme Serpantinum (voir
 contributeurs : <https://github.com/ilyamiro/serpantinum>. Les modifications
 propres à Nikaos sont © oberflach, sous la même licence.
 
-L'historique des versions de Serpantinum reprises dans Nikaos se trouve dans
-[CHANGELOG.md](CHANGELOG.md).
+Les notes de chaque version de Nikaos, suivies de l'historique de Serpantinum,
+sont dans [CHANGELOG.md](CHANGELOG.md).

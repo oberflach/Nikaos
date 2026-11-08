@@ -1,0 +1,36 @@
+# Creates the GitHub release when a version tag (vX.Y.Z) is pushed. The
+# release notes are the "## X.Y.Z" section of CHANGELOG.md, and the release
+# is what Nikaos' update button checks.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract the release notes
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          awk -v v="$version" '
+            $0 ~ "^## " v "([^0-9.]|$)" { found = 1; next }
+            found && (/^## / || /^---/ || /^# /) { exit }
+            found { print }
+          ' CHANGELOG.md > notes.md
+          if [ ! -s notes.md ]; then
+            echo "CHANGELOG.md has no '## $version' section" >&2
+            exit 1
+          fi
+
+      - name: Create the release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Nikaos ${{ github.ref_name }}
+          body_path: notes.md
