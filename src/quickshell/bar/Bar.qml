@@ -20,6 +20,10 @@ Variants {
             property bool startupFilesReady: false
             property bool isRedacting: false
 
+            // Starts the ScreenOrientation singleton (tablet-mode auto-rotate) with
+            // the bar; it runs nothing unless tablet mode is enabled in the settings.
+            property bool _orientationLoaded: Boolean(ScreenOrientation)
+
             property bool hideBarInRedactor: {
                 let dummy = configRevision;
                 if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.widgets && Config.rawSettings.widgets.hideBarInRedactor !== undefined) {
