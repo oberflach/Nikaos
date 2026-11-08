@@ -6,6 +6,14 @@ Chaque version a sa release sur GitHub, avec les notes ci-dessous :
 corrections, celui du milieu pour des nouveautés, le premier pour un grand
 changement.
 
+## 2.6.5 — 8 novembre 2026
+
+### Corrections
+- Le bouton **Mise à jour disponible** ouvre directement le panneau de choix
+  des versions, plutôt que de seulement ouvrir l'onglet À propos.
+
+---
+
 ## 2.6.4 — 8 novembre 2026
 
 ### Corrections
