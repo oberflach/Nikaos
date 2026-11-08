@@ -290,6 +290,17 @@
         "vpn": {
           "title": "Connexion VPN",
           "desc": "Connexion NetworkManager activée depuis Super+G (vide : masqué). Entrée pour enregistrer"
+        },
+        "setup": "Configurer",
+        "ready": "Prêt",
+        "not_installed": "Non installé",
+        "kitty": {
+          "title": "Transparence de Kitty",
+          "desc": "Permettre à la carte transparence de Super+G de changer le fond de Kitty sans atténuer son texte"
+        },
+        "vesktop": {
+          "title": "Transparence de Vesktop",
+          "desc": "Ajouter le Quick CSS que la carte transparence de Super+G pilote pour Vesktop (Discord)"
         }
       }
     },
@@ -1139,6 +1150,16 @@
         "title": "Dossier des captures d'écran",
         "desc": "Dossier où les captures d'écran sont enregistrées",
         "select_dir": "Sélectionner le dossier..."
+      }
+    },
+    "wallpaper": {
+      "transcode": {
+        "title": "Fonds vidéo allégés",
+        "desc": "Lire les vidéos depuis des copies à la taille de l'écran, préparées en arrière-plan (économise le GPU)"
+      },
+      "transcode_fps": {
+        "title": "Images par seconde des fonds vidéo",
+        "desc": "Fréquence maximale des copies allégées"
       }
     }
   },

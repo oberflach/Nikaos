@@ -63,6 +63,7 @@ hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("serpantinum msg bar autohide"))
 hl.bind(mainMod .. " + G", hl.dsp.global("quickshell:overlayToggle"))
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.exec_cmd("serpantinum ipc call gamemode toggle"))
 hl.bind(mainMod .. " + Slash", hl.dsp.global("quickshell:cheatsheetToggle"))
+hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("bash ~/.local/share/serpantinum/src/scripts/gaps_toggle.sh"))
 
 for i = 1, 10 do
   local ws = tostring(i)

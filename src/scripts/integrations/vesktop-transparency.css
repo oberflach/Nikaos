@@ -1,0 +1,43 @@
+/* Nikaos: Super+G transparency for Vesktop (added from Settings > General > Hardware). */
+:root {
+    --serpantinum-surface-alpha: 1.00;
+}
+
+/* Remove every nested Discord surface.  This prevents opacity from stacking
+ * two or three times around the server rail and account strip. */
+html, body, #app-mount,
+#app-mount *:not(img):not(video):not(canvas):not(svg):not(path):not(text) {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Exactly one shared tint behind the complete interface. */
+#app-mount {
+    isolation: isolate;
+}
+
+#app-mount::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: rgba(24, 24, 27, var(--serpantinum-surface-alpha)) !important;
+}
+
+#app-mount > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Discord fills the rounded sidebar corners with an opaque bottom strip. */
+#app-mount [class*="sidebar_"]::after {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Decorative Quest artwork follows the glass amount; avatars do not. */
+#app-mount img[class^="heroAsset_"] {
+    opacity: var(--serpantinum-surface-alpha) !important;
+}

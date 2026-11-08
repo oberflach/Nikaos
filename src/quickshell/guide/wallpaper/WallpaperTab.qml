@@ -46,6 +46,8 @@ WallpaperTabState {
             TransitionModeRow { tab: wallpaperTabRoot }
 
             TransitionEffectsSection { tab: wallpaperTabRoot }
+
+            VideoWallpaperSection { tab: wallpaperTabRoot }
         }
     }
 }

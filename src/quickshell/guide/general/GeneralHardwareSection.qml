@@ -23,6 +23,66 @@ SettingsBlob {
         Config.setSetting("hardware", next);
     }
 
+    // One-click setups (scripts/integrations.sh): kitty, vesktop, conservation.
+    readonly property string integrationsScript: Caching.serpantinumDir + "/scripts/integrations.sh"
+    property var integration: ({ "kitty": "", "vesktop": "", "conservation": "" })
+
+    function refreshIntegrations() {
+        integrationProbe.running = false;
+        integrationProbe.running = true;
+    }
+
+    Process {
+        id: integrationProbe
+        running: section.tab.visible
+        command: ["bash", "-c", "for i in kitty vesktop conservation; do printf '%s %s\\n' \"$i\" \"$(bash \"$1\" status \"$i\")\"; done", "_", section.integrationsScript]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                let next = {};
+                this.text.split("\n").forEach(l => { let p = l.trim().split(" "); if (p.length === 2) next[p[0]] = p[1]; });
+                section.integration = next;
+            }
+        }
+    }
+
+    Process {
+        id: integrationSetup
+        running: false
+        onExited: section.refreshIntegrations()
+    }
+
+    function setupIntegration(name) {
+        integrationSetup.command = ["bash", section.integrationsScript, "setup", name];
+        integrationSetup.running = false;
+        integrationSetup.running = true;
+    }
+
+    component SetupButton: ClickButton {
+        property string target: ""
+        readonly property string state: section.integration[target] || ""
+        visible: state === "missing"
+        implicitHeight: section.rootObj.s(30)
+        buttonText: I18n.t("guide.general.hardware.setup", "Set up")
+        buttonIcon: "󰒓"
+        accentColor: ThemeBackend.mauve
+        textColor: ThemeBackend.crust
+        cornerRadius: ThemeBackend.borderRadius
+        horizontalPadding: section.rootObj.s(12)
+        iconFontSize: section.rootObj.s(14)
+        textFontSize: section.rootObj.s(11)
+        onTriggered: section.setupIntegration(target)
+    }
+
+    component SetupState: Text {
+        property string target: ""
+        readonly property string state: section.integration[target] || ""
+        visible: state === "ok" || state === "unavailable"
+        text: state === "ok" ? I18n.t("guide.general.hardware.ready", "Ready") : I18n.t("guide.general.hardware.not_installed", "Not installed")
+        color: state === "ok" ? ThemeBackend.green : ThemeBackend.subtext0
+        font.family: ThemeBackend.fontFamily
+        font.pixelSize: section.rootObj.s(11)
+    }
+
     Process {
         running: section.tab.visible
         command: ["bash", Caching.serpantinumDir + "/scripts/conservation_mode.sh", "get"]
@@ -63,6 +123,8 @@ SettingsBlob {
             : I18n.t("guide.general.hardware.conservation.unavailable", "Not supported on this laptop (needs the ideapad_acpi driver)")
         searchKeywords: "battery conservation charge limit lenovo ideapad batterie"
 
+        SetupButton { target: "conservation" }
+
         Toggle {
             id: consToggle
             enabled: section.conservationAvailable
@@ -101,5 +163,29 @@ SettingsBlob {
             fontPixelSize: section.rootObj.s(12)
             onAccepted: (finalText) => section.setHw("vpnConnection", String(finalText || "").trim())
         }
+    }
+
+    SettingsRow {
+        rootObj: section.tab.rootObj
+        settingId: "hardware_kitty"
+        icon: "󰄛"
+        title: I18n.t("guide.general.hardware.kitty.title", "Kitty transparency")
+        description: I18n.t("guide.general.hardware.kitty.desc", "Let the Super+G transparency card change Kitty's background without fading its text")
+        searchKeywords: "kitty terminal transparency opacity super+g"
+
+        SetupState { target: "kitty" }
+        SetupButton { target: "kitty" }
+    }
+
+    SettingsRow {
+        rootObj: section.tab.rootObj
+        settingId: "hardware_vesktop"
+        icon: "󰙯"
+        title: I18n.t("guide.general.hardware.vesktop.title", "Vesktop transparency")
+        description: I18n.t("guide.general.hardware.vesktop.desc", "Add the Quick CSS the Super+G transparency card drives for Vesktop (Discord)")
+        searchKeywords: "vesktop discord transparency css super+g"
+
+        SetupState { target: "vesktop" }
+        SetupButton { target: "vesktop" }
     }
 }

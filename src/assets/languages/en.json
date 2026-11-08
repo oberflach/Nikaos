@@ -290,6 +290,17 @@
         "vpn": {
           "title": "VPN connection",
           "desc": "NetworkManager connection toggled from the Super+G overlay (empty: hidden). Press Enter to save"
+        },
+        "setup": "Set up",
+        "ready": "Ready",
+        "not_installed": "Not installed",
+        "kitty": {
+          "title": "Kitty transparency",
+          "desc": "Let the Super+G transparency card change Kitty's background without fading its text"
+        },
+        "vesktop": {
+          "title": "Vesktop transparency",
+          "desc": "Add the Quick CSS the Super+G transparency card drives for Vesktop (Discord)"
         }
       }
     },
@@ -1170,6 +1181,16 @@
         "title": "Screenshot directory",
         "desc": "Folder where screenshots are saved",
         "select_dir": "Select directory..."
+      }
+    },
+    "wallpaper": {
+      "transcode": {
+        "title": "Light video wallpapers",
+        "desc": "Play videos from copies sized to the screen, built in the background (saves GPU)"
+      },
+      "transcode_fps": {
+        "title": "Video wallpaper frame rate",
+        "desc": "Highest frame rate of the light copies"
       }
     }
   },
