@@ -22,6 +22,8 @@ changement.
   luminosité et la lumière bleue.
 - **Profil léger automatique** dans l'application Android : pas de flou, fonds
   statiques, animations réduites, mode tablette, sans contrôle de l'écran.
+- **Installateur ARM** `get-arm.sh`, joint à chaque release à côté de
+  l'installateur PC `get.sh`.
 - `install/install.sh --dry-run` montre ce que l'installateur ferait, sans
   rien changer.
 

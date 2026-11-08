@@ -34,4 +34,6 @@ jobs:
         with:
           name: Nikaos ${{ github.ref_name }}
           body_path: notes.md
-          files: install/get.sh
+          files: |
+            install/get.sh
+            install/get-arm.sh

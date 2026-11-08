@@ -100,9 +100,12 @@ Nikaos est compatible avec Arch Linux et ses dérivées (par exemple
 EndeavourOS, CachyOS, Manjaro et Garuda), et avec Arch Linux ARM (voir
 [Android / Nikaos Linux](#android--nikaos-linux)) :
 
-```bash
-curl -fsSL https://github.com/oberflach/Nikaos/releases/latest/download/get.sh | bash
-```
+Il y a deux installateurs, joints à chaque release :
+
+| Machine | Commande |
+|---|---|
+| **PC** (x86_64) | `curl -fsSL https://github.com/oberflach/Nikaos/releases/latest/download/get.sh \| bash` |
+| **ARM** (aarch64, dont Nikaos Linux sur Android) | `curl -fsSL https://github.com/oberflach/Nikaos/releases/latest/download/get-arm.sh \| bash` |
 
 Ou, pour installer depuis un clone du dépôt :
 
@@ -139,10 +142,11 @@ tourner Arch Linux ARM (aarch64) sous proot, sans root. Dans le terminal du
 bureau Linux de l'application :
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/oberflach/nikaos/master/install/get.sh | bash
+curl -fsSL https://github.com/oberflach/Nikaos/releases/latest/download/get-arm.sh | bash
 ```
 
-L'installateur reconnaît l'application (variable `DROIDDECK` ou
+Une fois installé, `nikaos session` démarre Nikaos. L'installateur reconnaît
+l'application (variable `DROIDDECK` ou
 `NIKAOS_ANDROID=1`, ou `/usr/local/bin/droiddeck-desktop`) et s'adapte :
 
 - **Compositeur Sway** : Hyprland ne démarre pas encore dans l'application. La
