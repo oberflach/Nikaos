@@ -22,6 +22,7 @@ Item {
     signal releaseTabs()
 
     property int activationCounter: 0
+    property int updateRequest: 0
     property var appPaths: Caching
     property int currentTab: 0
     property int currentSubTab: 0

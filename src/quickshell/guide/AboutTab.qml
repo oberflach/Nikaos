@@ -11,6 +11,7 @@ GuideTab {
     id: aboutTabRoot
 
     property real updateTransitionProgress: Updater.updateAvailable ? 1.0 : 0.0
+    property int handledUpdateRequest: 0
     Behavior on updateTransitionProgress {
         NumberAnimation {
             duration: 400
@@ -30,6 +31,12 @@ GuideTab {
         if (!releaseProc.running) releaseProc.running = true;
     }
 
+    function handleUpdateRequest() {
+        if (!visible || !rootObj || rootObj.updateRequest <= handledUpdateRequest) return;
+        handledUpdateRequest = rootObj.updateRequest;
+        openUpdatePicker();
+    }
+
     function installVersion(version) {
         if (!/^\d+(\.\d+){2}$/.test(version)) return;
         let installer = "curl -fsSL https://github.com/oberflach/Nikaos/releases/latest/download/get.sh | NIKAOS_REF=\"$1\" bash";
@@ -39,11 +46,22 @@ GuideTab {
     }
 
     onVisibleChanged: {
-        if (visible) activateTab();
+        if (visible) {
+            activateTab();
+            handleUpdateRequest();
+        }
     }
 
     Component.onCompleted: {
-        if (visible) activateTab();
+        if (visible) {
+            activateTab();
+            handleUpdateRequest();
+        }
+    }
+
+    Connections {
+        target: aboutTabRoot.rootObj ? aboutTabRoot.rootObj : null
+        function onUpdateRequestChanged() { aboutTabRoot.handleUpdateRequest(); }
     }
 
     Flickable {

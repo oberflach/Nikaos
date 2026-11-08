@@ -400,7 +400,10 @@ Rectangle {
             textFontSize: popup.s(13)
             accentColor: ThemeBackend.green
             textColor: ThemeBackend.crust
-            onClicked: popup.gotoTab("about")
+            onClicked: {
+                popup.gotoTab("about");
+                Qt.callLater(function() { popup.updateRequest++; });
+            }
         }
     }
 }
