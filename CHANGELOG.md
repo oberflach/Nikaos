@@ -6,6 +6,16 @@ Chaque version a sa release sur GitHub, avec les notes ci-dessous :
 corrections, celui du milieu pour des nouveautés, le premier pour un grand
 changement.
 
+## 2.6.1 — 8 novembre 2026
+
+### Corrections
+- Chaque release inclut maintenant le fichier `get.sh`, téléchargeable
+  directement pour installer Nikaos.
+- La commande d'installation du README pointe vers ce fichier de la dernière
+  release.
+
+---
+
 ## 2.6.0 — 8 novembre 2026
 
 ### Nouveautés
