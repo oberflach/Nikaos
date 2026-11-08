@@ -6,6 +6,14 @@ Chaque version a sa release sur GitHub, avec les notes ci-dessous :
 corrections, celui du milieu pour des nouveautés, le premier pour un grand
 changement.
 
+## 2.6.6 — 8 novembre 2026
+
+### Corrections
+- L'installation lancée depuis le panneau utilise correctement le tag GitHub
+  de la version sélectionnée.
+
+---
+
 ## 2.6.5 — 8 novembre 2026
 
 ### Corrections
