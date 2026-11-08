@@ -115,7 +115,19 @@ TARGET_COMMIT=$(get_target_commit "$PROJECT_ROOT" "$REPO_SLUG")
 OLD_COMMIT=$(get_installed_commit)
 
 init_compositor_detection
-run_installer_ui
+# Without a terminal (Nikaos Linux runs the installer from the app with
+# stdin on /dev/null) the menu cannot be used: install or update straight
+# away with the detected choices. NIKAOS_NONINTERACTIVE=1 forces it.
+if [ -t 0 ] && [ "${NIKAOS_NONINTERACTIVE:-}" != 1 ]; then
+    run_installer_ui
+else
+    if [ ${#SELECTED_COMPOSITORS[@]} -eq 0 ]; then
+        echo "$(t "installer.ui.error_no_compositor")" >&2
+        exit 1
+    fi
+    IS_REINSTALL=false
+    echo -e "\e[36m[ INFO ]\e[0m Non-interactive install for: ${SELECTED_COMPOSITORS[*]}"
+fi
 
 TARGET_VERSION=$(get_target_version "$PROJECT_ROOT" "$REPO_SLUG")
 TARGET_COMMIT=$(get_target_commit "$PROJECT_ROOT" "$REPO_SLUG")

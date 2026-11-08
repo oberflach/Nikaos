@@ -95,6 +95,7 @@ check_supported_os() {
 
 bootstrap_installer_deps() {
     suppress_tty_sleep
+    nikaos_is_android && nikaos_android_prepare_pacman
     pm_prepare_repos
 
     local missing=()
@@ -108,7 +109,10 @@ bootstrap_installer_deps() {
         pm_bootstrap_install "${missing[@]}"
     fi
 
-    pm_bootstrap_helper
+    # No AUR helper in the Android proot: building yay needs makepkg and
+    # fakeroot, which crashes there. Everything Nikaos needs comes from the
+    # repositories or is built directly (Quickshell, serpantinum-core).
+    nikaos_is_android || pm_bootstrap_helper
 }
 
 install_fonts() {

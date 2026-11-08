@@ -107,6 +107,21 @@ nikaos_build_quickshell() {
     return 1
 }
 
+# pacman under the Android proot: pacman 7 downloads as the "alpm" user, which
+# does not exist there (the app rewrites /etc/passwd), and its Landlock
+# sandbox does not work. The app's own script does this too; doing it here
+# keeps a manual install working.
+nikaos_android_prepare_pacman() {
+    local conf=/etc/pacman.conf
+    [ -f "$conf" ] || return 0
+    if grep -q '^DownloadUser' "$conf"; then
+        sudo sed -i 's/^DownloadUser/#DownloadUser/' "$conf" || true
+    fi
+    if ! grep -q '^DisableSandbox' "$conf"; then
+        sudo sed -i '/^\[options\]/a DisableSandbox' "$conf" || true
+    fi
+}
+
 # Packages that make no sense inside the Android proot (no DRM, no udev,
 # no power or display control) or that Arch Linux ARM does not have.
 ANDROID_SKIP_PKGS=(ddcutil power-profiles-daemon gpu-screen-recorder)

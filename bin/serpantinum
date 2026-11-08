@@ -206,7 +206,7 @@ while [[ "$1" == -* ]]; do
             shift
             ;;
         -V|--version)
-            echo "serpantinum v$(get_installed_version)"
+            echo "nikaos v$(get_installed_version)"
             exit 0
             ;;
         -h|--help)

@@ -33,9 +33,16 @@ export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp/runtime-$(id -u)}"
 mkdir -p "$XDG_RUNTIME_DIR" && chmod 700 "$XDG_RUNTIME_DIR" 2>/dev/null
 export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-wayland}"
 
-# Nikaos Linux ships a patched wlroots for its own host compositor.
-if [ -d /usr/local/lib/droiddeck-wlroots ]; then
-    export LD_LIBRARY_PATH="/usr/local/lib/droiddeck-wlroots${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# Nikaos Linux (Android app): the compositor runs nested in the app's own
+# Wayland compositor, which is not a DRM device, so wlroots only gets an
+# allocator with the pixman (software) renderer. Same settings as the app's
+# droiddeck-desktop; NIKAOS_WLR_RENDERER overrides the renderer.
+if [ -n "${DROIDDECK:-}" ] || [ "${NIKAOS_ANDROID:-}" = 1 ] || [ -x /usr/local/bin/droiddeck-desktop ]; then
+    export NIKAOS_ANDROID=1
+    export WLR_BACKENDS="${WLR_BACKENDS:-wayland}"
+    export WLR_RENDERER="${NIKAOS_WLR_RENDERER:-${WLR_RENDERER:-pixman}}"
+    export WLR_NO_HARDWARE_CURSORS=1
+    unset KDE_FULL_SESSION KDE_SESSION_VERSION KDE_APPLICATIONS_AS_SCOPE KWIN_COMPOSE
 fi
 
 cmd=("$comp")
