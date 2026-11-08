@@ -39,7 +39,7 @@ GuideTab {
 
     function installVersion(version) {
         if (!/^\d+(\.\d+){2}$/.test(version)) return;
-        let installer = "curl -fsSL https://github.com/oberflach/Nikaos/releases/latest/download/get.sh | NIKAOS_REF=\"$1\" bash";
+        let installer = "curl -fsSL https://github.com/oberflach/Nikaos/releases/latest/download/get.sh | NIKAOS_REF=\"v$1\" bash";
         let launcher = "if command -v kitty >/dev/null 2>&1; then exec kitty --hold bash -c \"$2\" _ \"$1\"; else exec xterm -hold -e bash -c \"$2\" _ \"$1\"; fi";
         Quickshell.execDetached(["bash", "-c", launcher, "_", version, installer]);
         rootObj.dismissHost();
