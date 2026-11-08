@@ -1,11 +1,52 @@
-### Nikaos 2.4.3
+# Notes de version de Nikaos
 
-- Fork of Serpantinum 2.4.3 renamed Nikaos (AGPL-3.0, credits to ilyamiro).
-- Machine-specific features moved to Settings > General > Hardware: tablet mode, battery conservation, VPN connection.
-- Game mode: custom commands on enter and exit.
-- Telemetry removed from the installer.
+Chaque version a sa release sur GitHub, avec les notes ci-dessous :
+<https://github.com/oberflach/nikaos/releases>. Les numéros suivent la forme
+`MAJEURE.MINEURE.CORRECTIF` : le dernier chiffre augmente pour des
+corrections, celui du milieu pour des nouveautés, le premier pour un grand
+changement.
 
-The entries below are Serpantinum's own history.
+## 2.5.0 — 8 novembre 2026
+
+Première version de Nikaos, basée sur Serpantinum 2.4.3.
+
+### Nouveautés
+- **Couleurs synchronisées avec le fond d'écran** : la barre et les widgets
+  changent de couleur pendant la transition du fond (image, GIF ou vidéo).
+- **Nuances** : chaque icône de la barre (Paramètres → Thème) et chaque widget
+  (clic droit dans l'éditeur de widgets) a sa propre teinte et luminosité.
+- **Super+G** : enregistreur, volume par application, ressources, viseur,
+  notes, applications ouvertes, transparence par application, image flottante
+  et VPN, dans des cartes déplaçables et épinglables.
+- **Mode jeu** (Super+Shift+G ou automatique quand un jeu choisi est ouvert) :
+  décharge le fond et les widgets, fenêtres opaques, sans flou ni animations,
+  direct scanout, VRR, profil performance et commandes personnalisées.
+- **Flou seulement derrière les fenêtres transparentes**, avec un interrupteur
+  dans Super+G.
+- **Charge du GPU** dans la barre, le panneau système et en widget.
+- **Position des écrans secondaires** et **espacements des fenêtres** dans les
+  paramètres, mode sans bordure avec Super+U.
+- **Fonds vidéo allégés** (Paramètres → Fonds d'écran) et diaporama trié par
+  couleur.
+- **Options matérielles** (Paramètres → Général → Matériel) : mode tablette,
+  conservation de batterie, VPN, et configuration en un clic de la
+  transparence de Kitty et de Vesktop.
+
+### Corrections
+- Les captures d'écran et les vidéos sont enregistrées dans les dossiers
+  Images et Vidéos du système, même quand ils ont un nom traduit.
+- Les captures lancées depuis Super+G n'incluent plus l'overlay à moitié
+  transparent.
+
+### Autres changements
+- Le bouton de mise à jour suit les releases de Nikaos.
+- L'installateur n'envoie aucune télémétrie.
+
+---
+
+# Historique de Serpantinum
+
+Versions de Serpantinum (par ilyamiro) sur lesquelles Nikaos est construit.
 
 ### 2.4.3
 
