@@ -100,7 +100,7 @@ Nikaos est compatible avec Arch Linux et ses dérivées (par exemple
 EndeavourOS, CachyOS, Manjaro et Garuda) :
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/oberflach/nikaos/master/install/get.sh | bash
+curl -fsSL https://github.com/oberflach/Nikaos/releases/latest/download/get.sh | bash
 ```
 
 Ou, pour installer depuis un clone du dépôt :
